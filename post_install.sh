@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Set a 10-minute timeout globally for all pkg operations in this script
+export FETCH_TIMEOUT=600
+
 plugin_name=$(hostname)
 ansible_custom_facts_dir="/etc/ansible/facts.d"
 net_if=$(route -n get default | awk '/interface:/ {print $2}')
@@ -31,7 +34,6 @@ EOF2
 	# Apply the hardware checksum and MTU bypass.
 	fix_vnet_interface
 	# Install packages.
-	export FETCH_TIMEOUT=600
 	pkg install -y git py311-ansible sudo syslog-ng
         # Ansible needs UTF-8
         echo "LANG=en_US.UTF-8" >> /root/.profile
@@ -60,7 +62,6 @@ EOF2
 	# Apply the hardware checksum and MTU bypass.
 	fix_vnet_interface
 	# Install packages.
-	export FETCH_TIMEOUT=600
 	pkg install -y git lnav py311-ansible sudo syslog-ng
         # Ansible needs UTF-8
         echo "LANG=en_US.UTF-8" >> /root/.profile
